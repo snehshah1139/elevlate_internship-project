@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Results - Resume Ranker</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: #f4f6fb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: #1976d2;
+            left: -200px;
+            top: -150px;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: #42a5f5;
+            right: -180px;
+            bottom: -120px;
+        }
+
+        .container {
+            background: #fff;
+            box-shadow: 0 8px 32px rgba(40, 60, 90, 0.13), 0 1.5px 6px rgba(25, 118, 210, 0.08);
+            border-radius: 1.2rem;
+            padding: 2.5rem 2rem;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s cubic-bezier(.39,.575,.56,1);
+        }
+
+        h2 {
+            color: #223354;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.05);
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .results-table th {
+            background-color: #1976d2;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .results-table tr:hover {
+            background-color: #f1f5fb;
+        }
+
+        .score-cell {
+            font-weight: 600;
+            color: #1976d2;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-top: 1.5rem;
+        }
+
+        .back-btn:hover {
+            background: #1251a3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.15);
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            .results-table th,
+            .results-table td {
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Resume Ranking Results</h2>
+        
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Filename</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, (name, score) in enumerate(ranked) %}
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ name }}</td>
+                    <td class="score-cell">{{ '%.2f'|format(score * 100) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="/" class="back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Analyzer
+        </a>
+    </div>
+</body>
+</html>
